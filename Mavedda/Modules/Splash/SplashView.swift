@@ -10,6 +10,7 @@ import SwiftUI
 struct SplashView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
     @State private var isActive = false
+    @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore = false
 
     var body: some View {
         VStack {
@@ -26,8 +27,12 @@ struct SplashView: View {
             // Splash ekranında bir süre bekledikten sonra diğer ekrana geçiş yap
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // 2 saniye sonra
                 isActive = true
-                appCoordinator.show(.onboarding) // Onboarding'e geçiş
-                
+                if !hasLaunchedBefore {
+                    appCoordinator.show(.onboarding) // İlk açılışta Onboarding'e geçiş
+                } else {
+                    appCoordinator.show(.authSelection) // Sonraki açılışlarda AuthSelection'a geçiş
+                }
+                hasLaunchedBefore = true // Bu satırı buraya taşıdık
             }
         }
     }
