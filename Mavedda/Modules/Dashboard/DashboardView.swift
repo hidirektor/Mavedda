@@ -9,44 +9,41 @@ import SwiftUI
 
 struct DashboardView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
-    @State private var showingProfile = false  // Profil sayfasını göstermek için
+    @State private var showingProfile = false
+    @State private var verticalSwitchIsOn = false
 
     var body: some View {
-        VStack {
-            Text("Dashboard")
-                .padding()
-                .font(.title)
-
-            Button(action: {
-                showingProfile = true
-            }) {
-                Text("Profili Görüntüle")
+        NavigationView {
+            ZStack {
+                ScrollView {
+                    VStack(spacing: 15) {
+                        TopBarView()
+                        RemainingTimeView(endTime: Date().addingTimeInterval(4 * 24 * 60 * 60))
+                        ButtonRowView()
+                        SummaryView()
+                        RecentTransactionsView()
+                    }
                     .padding()
-                    .background(Color.orange)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-            }
-            .padding()
-            .sheet(isPresented: $showingProfile) {
-                ProfileView() // Profil sayfasını sun
-            }
-            
-            Button(action: {
-                appCoordinator.show(.settings)
-            }){
-                Text("Ayarlara Git")
-                    .padding()
-                    .background(Color.gray)
-                    .foregroundColor(.white)
-                    .cornerRadius(8)
-            }
+                }
+                .navigationBarHidden(true)
+                .safeAreaInset(edge: .bottom) {
+                    BottomNavigationView()
+                }
 
-            Spacer()
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        OperationTypeSwitch()
+                    }
+                    .padding(.bottom, 72)
+                    .padding(.trailing, 12)
+                }
+            }
         }
-        .padding()
-        .navigationTitle("Anasayfa")
-        .onAppear{
-            print("Dashboard göründü")
-        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("background_main"))
+        .ignoresSafeArea()
+        .navigationViewStyle(.stack)
     }
 }

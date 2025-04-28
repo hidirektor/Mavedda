@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SplashView: View {
     @EnvironmentObject var appCoordinator: AppCoordinator
+    @StateObject var viewModel: SplashViewModel
     @State private var isActive = false
     @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore = false
 
@@ -23,16 +24,13 @@ struct SplashView: View {
                 ProgressView()
             }
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("background_main"))
+        .ignoresSafeArea()
         .onAppear {
-            // Splash ekranında bir süre bekledikten sonra diğer ekrana geçiş yap
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { // 2 saniye sonra
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 isActive = true
-                if !hasLaunchedBefore {
-                    appCoordinator.show(.onboarding) // İlk açılışta Onboarding'e geçiş
-                } else {
-                    appCoordinator.show(.authSelection) // Sonraki açılışlarda AuthSelection'a geçiş
-                }
-                hasLaunchedBefore = true // Bu satırı buraya taşıdık
+                viewModel.navigateToNextScreen()
             }
         }
     }

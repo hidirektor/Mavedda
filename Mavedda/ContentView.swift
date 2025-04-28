@@ -22,7 +22,7 @@ struct ContentView: View {
     var currentView: some View {
         switch appCoordinator.currentScreen {
         case .splash:
-            SplashView()
+            SplashView(viewModel: SplashViewModel(appCoordinator: appCoordinator))
         case .onboarding:
             OnboardingView(viewModel: OnboardingViewModel())
         case .firstSetup:

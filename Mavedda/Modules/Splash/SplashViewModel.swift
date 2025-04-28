@@ -6,12 +6,22 @@
 //
 
 import Foundation
+import SwiftUI
 
 class SplashViewModel: BaseViewModel {
-    // Gerekirse burada splash ekranı ile ilgili işlemler yapılabilir.
-    // Örneğin, gerekli verilerin yüklenmesi, animasyonların başlatılması vb.
+    @AppStorage("hasLaunchedBefore") private var hasLaunchedBefore = false
+    private let appCoordinator: AppCoordinator
+
+      init(appCoordinator: AppCoordinator) {
+        self.appCoordinator = appCoordinator
+    }
 
     func navigateToNextScreen() {
-        // Bir süre bekledikten sonra bir sonraki ekrana geçiş yap
+         if !hasLaunchedBefore {
+            appCoordinator.show(.onboarding)
+        } else {
+            appCoordinator.show(.authSelection)
+        }
+        hasLaunchedBefore = true
     }
 }

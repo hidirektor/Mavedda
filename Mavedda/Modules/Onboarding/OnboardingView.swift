@@ -41,7 +41,7 @@ struct OnboardingView: View {
                 if viewModel.currentPage < 2 {
                     viewModel.currentPage += 1
                 } else {
-                    appCoordinator.show(.firstSetup) // Onboarding tamamlandı, FirstSetup'a geç
+                    appCoordinator.show(.firstSetup)
                 }
             }) {
                 Text(viewModel.currentPage < 2 ? "İleri" : "Başla")
@@ -54,9 +54,6 @@ struct OnboardingView: View {
         }
     }
 }
-
-//  OnboardingPageView.swift
-//  Created by AI
 
 import SwiftUI
 
@@ -79,6 +76,9 @@ struct OnboardingPageView: View {
                 .padding()
             Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("background_main"))
+        .ignoresSafeArea()
         .padding()
     }
 }

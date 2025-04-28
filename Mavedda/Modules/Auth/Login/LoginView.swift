@@ -63,6 +63,9 @@ struct LoginView: View {
 
             Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("background_main"))
+        .ignoresSafeArea()
         .padding()
         .navigationTitle("Giriş Yap")
         .onDisappear { // Ekran kaybolduğunda state'i temizle

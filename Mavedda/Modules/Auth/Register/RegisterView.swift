@@ -51,6 +51,9 @@ struct RegisterView: View {
 
             Spacer()
         }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color("background_main"))
+        .ignoresSafeArea()
         .padding()
         .navigationTitle("Kayıt Ol")
         .onDisappear {
